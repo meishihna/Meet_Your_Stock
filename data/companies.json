@@ -1,0 +1,134 @@
+[
+  {
+    "ticker": "AAPL",
+    "name": "Apple Inc.",
+    "logo": "🍎",
+    "sector": "消費性電子",
+    "description": "iPhone、Mac 與服務生態系的全球龍頭。",
+    "price": { "current": 214.29, "changePercent": 1.12 },
+    "fundamentals": { "marketCap": 3280000000000, "peRatio": 33.2, "dividendYield": 0.45, "eps": 6.45 },
+    "financials": { "revenue": 391000000000, "netIncome": 93700000000, "grossMargin": 46.2, "debtRatio": 31.5, "freeCashFlow": 108000000000 },
+    "basics": { "founded": 1976, "ceo": "Tim Cook", "headquarters": "Cupertino, CA", "employees": 164000 }
+  },
+  {
+    "ticker": "MSFT",
+    "name": "Microsoft Corp.",
+    "logo": "🪟",
+    "sector": "軟體 / 雲端",
+    "description": "Windows、Office 與 Azure 雲端運算巨頭。",
+    "price": { "current": 449.78, "changePercent": 0.68 },
+    "fundamentals": { "marketCap": 3340000000000, "peRatio": 38.1, "dividendYield": 0.72, "eps": 11.8 },
+    "financials": { "revenue": 245000000000, "netIncome": 88100000000, "grossMargin": 69.8, "debtRatio": 28.4, "freeCashFlow": 74000000000 },
+    "basics": { "founded": 1975, "ceo": "Satya Nadella", "headquarters": "Redmond, WA", "employees": 221000 }
+  },
+  {
+    "ticker": "NVDA",
+    "name": "NVIDIA Corp.",
+    "logo": "🎮",
+    "sector": "半導體",
+    "description": "AI 運算與 GPU 的核心供應商。",
+    "price": { "current": 126.57, "changePercent": 3.45 },
+    "fundamentals": { "marketCap": 3110000000000, "peRatio": 68.5, "dividendYield": 0.03, "eps": 1.85 },
+    "financials": { "revenue": 130000000000, "netIncome": 73000000000, "grossMargin": 75.0, "debtRatio": 22.1, "freeCashFlow": 60000000000 },
+    "basics": { "founded": 1993, "ceo": "Jensen Huang", "headquarters": "Santa Clara, CA", "employees": 29600 }
+  },
+  {
+    "ticker": "GOOGL",
+    "name": "Alphabet Inc.",
+    "logo": "🔍",
+    "sector": "網路服務 / 廣告",
+    "description": "Google 搜尋、YouTube 與雲端的母公司。",
+    "price": { "current": 178.35, "changePercent": -0.42 },
+    "fundamentals": { "marketCap": 2200000000000, "peRatio": 26.8, "dividendYield": 0.48, "eps": 6.65 },
+    "financials": { "revenue": 350000000000, "netIncome": 100000000000, "grossMargin": 57.5, "debtRatio": 11.8, "freeCashFlow": 69000000000 },
+    "basics": { "founded": 1998, "ceo": "Sundar Pichai", "headquarters": "Mountain View, CA", "employees": 182000 }
+  },
+  {
+    "ticker": "AMZN",
+    "name": "Amazon.com Inc.",
+    "logo": "📦",
+    "sector": "電商 / 雲端",
+    "description": "全球最大電商平台與 AWS 雲端服務。",
+    "price": { "current": 197.12, "changePercent": 0.95 },
+    "fundamentals": { "marketCap": 2050000000000, "peRatio": 44.6, "dividendYield": 0.0, "eps": 4.42 },
+    "financials": { "revenue": 638000000000, "netIncome": 59200000000, "grossMargin": 48.9, "debtRatio": 41.2, "freeCashFlow": 38000000000 },
+    "basics": { "founded": 1994, "ceo": "Andy Jassy", "headquarters": "Seattle, WA", "employees": 1550000 }
+  },
+  {
+    "ticker": "TSLA",
+    "name": "Tesla Inc.",
+    "logo": "🚗",
+    "sector": "電動車 / 能源",
+    "description": "電動車與儲能領導品牌。",
+    "price": { "current": 248.5, "changePercent": -2.13 },
+    "fundamentals": { "marketCap": 790000000000, "peRatio": 58.2, "dividendYield": 0.0, "eps": 4.27 },
+    "financials": { "revenue": 97700000000, "netIncome": 7100000000, "grossMargin": 17.9, "debtRatio": 15.3, "freeCashFlow": 3600000000 },
+    "basics": { "founded": 2003, "ceo": "Elon Musk", "headquarters": "Austin, TX", "employees": 140000 }
+  },
+  {
+    "ticker": "META",
+    "name": "Meta Platforms Inc.",
+    "logo": "💬",
+    "sector": "社群媒體",
+    "description": "Facebook、Instagram、WhatsApp 的母公司。",
+    "price": { "current": 503.76, "changePercent": 1.84 },
+    "fundamentals": { "marketCap": 1280000000000, "peRatio": 27.4, "dividendYield": 0.35, "eps": 18.4 },
+    "financials": { "revenue": 164000000000, "netIncome": 62400000000, "grossMargin": 81.5, "debtRatio": 18.9, "freeCashFlow": 54000000000 },
+    "basics": { "founded": 2004, "ceo": "Mark Zuckerberg", "headquarters": "Menlo Park, CA", "employees": 74000 }
+  },
+  {
+    "ticker": "JPM",
+    "name": "JPMorgan Chase & Co.",
+    "logo": "🏦",
+    "sector": "金融 / 銀行",
+    "description": "美國最大銀行之一,涵蓋投資與消費金融。",
+    "price": { "current": 205.88, "changePercent": 0.33 },
+    "fundamentals": { "marketCap": 590000000000, "peRatio": 12.1, "dividendYield": 2.25, "eps": 17.0 },
+    "financials": { "revenue": 158000000000, "netIncome": 49600000000, "grossMargin": 0.0, "debtRatio": 88.5, "freeCashFlow": 0.0 },
+    "basics": { "founded": 1799, "ceo": "Jamie Dimon", "headquarters": "New York, NY", "employees": 309000 }
+  },
+  {
+    "ticker": "KO",
+    "name": "The Coca-Cola Company",
+    "logo": "🥤",
+    "sector": "食品飲料",
+    "description": "全球最大飲料公司,穩定配息代表股。",
+    "price": { "current": 63.42, "changePercent": -0.18 },
+    "fundamentals": { "marketCap": 273000000000, "peRatio": 24.9, "dividendYield": 3.05, "eps": 2.55 },
+    "financials": { "revenue": 46000000000, "netIncome": 10700000000, "grossMargin": 60.3, "debtRatio": 63.1, "freeCashFlow": 9800000000 },
+    "basics": { "founded": 1892, "ceo": "James Quincey", "headquarters": "Atlanta, GA", "employees": 79100 }
+  },
+  {
+    "ticker": "DIS",
+    "name": "The Walt Disney Company",
+    "logo": "🏰",
+    "sector": "媒體娛樂",
+    "description": "影視、樂園與串流(Disney+)的娛樂帝國。",
+    "price": { "current": 98.15, "changePercent": 1.02 },
+    "fundamentals": { "marketCap": 178000000000, "peRatio": 37.6, "dividendYield": 0.9, "eps": 2.61 },
+    "financials": { "revenue": 91400000000, "netIncome": 4970000000, "grossMargin": 35.8, "debtRatio": 40.6, "freeCashFlow": 8600000000 },
+    "basics": { "founded": 1923, "ceo": "Bob Iger", "headquarters": "Burbank, CA", "employees": 225000 }
+  },
+  {
+    "ticker": "NKE",
+    "name": "NIKE Inc.",
+    "logo": "👟",
+    "sector": "運動用品",
+    "description": "全球運動鞋與服飾第一品牌。",
+    "price": { "current": 75.34, "changePercent": -1.25 },
+    "fundamentals": { "marketCap": 113000000000, "peRatio": 21.8, "dividendYield": 1.95, "eps": 3.46 },
+    "financials": { "revenue": 51400000000, "netIncome": 5700000000, "grossMargin": 44.6, "debtRatio": 34.2, "freeCashFlow": 6200000000 },
+    "basics": { "founded": 1964, "ceo": "Elliott Hill", "headquarters": "Beaverton, OR", "employees": 79400 }
+  },
+  {
+    "ticker": "PLTR",
+    "name": "Palantir Technologies",
+    "logo": "🛰️",
+    "sector": "軟體 / 資料分析",
+    "description": "政府與企業級大數據分析平台。",
+    "price": { "current": 27.68, "changePercent": 4.72 },
+    "fundamentals": { "marketCap": 61000000000, "peRatio": 210.0, "dividendYield": 0.0, "eps": 0.13 },
+    "financials": { "revenue": 2870000000, "netIncome": 462000000, "grossMargin": 80.3, "debtRatio": 12.5, "freeCashFlow": 730000000 },
+    "basics": { "founded": 2003, "ceo": "Alex Karp", "headquarters": "Denver, CO", "employees": 3900 }
+  }
+]
