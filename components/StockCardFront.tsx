@@ -27,7 +27,7 @@ export default function StockCardFront({ company }: { company: Company }) {
 
       {/* 現價 + 漲跌幅 */}
       <div className="mt-6">
-        <p className="text-4xl font-extrabold tracking-tight">
+        <p className="text-3xl font-extrabold tracking-tight sm:text-4xl">
           {formatPrice(company.price.current, company.currency)}
         </p>
         <p
@@ -44,18 +44,18 @@ export default function StockCardFront({ company }: { company: Company }) {
         </p>
       </div>
 
-      {/* 走勢圖 */}
-      <div className="mt-4">
-        <PriceChart data={company.history} height={90} />
-      </div>
-
       {/* 公司全名 / 簡介 */}
-      <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-white/80">
+      <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-white/70">
         {company.description}
       </p>
 
+      {/* 走勢圖(主角:撐滿中間剩餘空間) */}
+      <div className="mt-3 min-h-0 flex-1">
+        <PriceChart data={company.history} />
+      </div>
+
       {/* 底部:3 個關鍵指標 */}
-      <div className="mt-auto grid grid-cols-3 gap-2 pt-4">
+      <div className="grid grid-cols-3 gap-2 pt-4">
         <Metric
           label="市值"
           value={formatBigMoney(company.fundamentals.marketCap, company.currency)}

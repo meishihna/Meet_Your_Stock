@@ -77,7 +77,9 @@ export default function StockDetail({
 
         {/* 走勢圖 */}
         <div className="mt-3 rounded-xl bg-slate-50 p-2 dark:bg-slate-800/50">
-          <PriceChart data={company.history} height={120} />
+          <div className="h-32">
+            <PriceChart data={company.history} />
+          </div>
           <p className="mt-1 text-center text-xs text-slate-400">
             {company.historySource === "real"
               ? "近一年週線(Yahoo Finance)"
