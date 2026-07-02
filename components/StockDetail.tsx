@@ -5,10 +5,11 @@
 import { motion } from "framer-motion";
 import type { Company } from "@/lib/types";
 import {
+  formatBigMoney,
   formatInt,
-  formatMarketCap,
-  formatMoney,
   formatPercent,
+  formatPrice,
+  orDash,
 } from "@/lib/format";
 import PriceChart from "./PriceChart";
 
@@ -20,6 +21,7 @@ export default function StockDetail({
   onClose: () => void;
 }) {
   const up = company.price.changePercent >= 0;
+  const cur = company.currency;
 
   return (
     // 半透明遮罩,點空白處關閉
@@ -46,18 +48,23 @@ export default function StockDetail({
           <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-3xl dark:bg-slate-800">
             {company.logo}
           </div>
-          <div>
+          <div className="min-w-0">
             <h2 className="text-xl font-bold">
-              {company.ticker} · {company.name}
+              {company.name}{" "}
+              <span className="text-sm font-normal text-slate-400">
+                {company.ticker}
+              </span>
             </h2>
-            <p className="text-sm text-slate-500">{company.sector}</p>
+            <p className="truncate text-sm text-slate-500">
+              {company.description}
+            </p>
           </div>
         </div>
 
         {/* 現價 */}
         <div className="mt-4 flex items-end gap-3">
           <span className="text-3xl font-extrabold">
-            {formatMoney(company.price.current)}
+            {formatPrice(company.price.current, cur)}
           </span>
           <span
             className={`pb-1 font-semibold ${
@@ -71,46 +78,100 @@ export default function StockDetail({
         {/* 走勢圖 */}
         <div className="mt-3 rounded-xl bg-slate-50 p-2 dark:bg-slate-800/50">
           <PriceChart data={company.history} height={120} />
-          <p className="mt-1 text-center text-xs text-slate-400">近一年走勢(示範資料)</p>
+          <p className="mt-1 text-center text-xs text-slate-400">
+            近一年走勢(示範資料,非真實歷史)
+            {company.dataDate && `・收盤 ${company.dataDate}`}
+          </p>
         </div>
 
         {/* 估值 */}
         <Section title="估值指標">
-          <Row label="市值" value={formatMarketCap(company.fundamentals.marketCap)} />
-          <Row label="本益比 P/E" value={company.fundamentals.peRatio.toFixed(1)} />
-          <Row label="每股盈餘 EPS" value={formatMoney(company.fundamentals.eps)} />
+          <Row
+            label="市值"
+            value={formatBigMoney(company.fundamentals.marketCap, cur)}
+          />
+          <Row
+            label="本益比 P/E"
+            value={orDash(company.fundamentals.peRatio, (n) => n.toFixed(2))}
+          />
+          <Row
+            label="股價淨值比 P/B"
+            value={orDash(company.fundamentals.pbRatio, (n) => n.toFixed(2))}
+          />
+          <Row
+            label="每股盈餘 EPS"
+            value={orDash(company.fundamentals.eps, (n) => formatPrice(n, cur))}
+          />
           <Row
             label="殖利率"
-            value={`${company.fundamentals.dividendYield.toFixed(2)}%`}
+            value={orDash(
+              company.fundamentals.dividendYield,
+              (n) => `${n.toFixed(2)}%`
+            )}
           />
         </Section>
 
         {/* 財務資料 */}
-        <Section title="財務資料(年度)">
-          <Row label="營收" value={formatMarketCap(company.financials.revenue)} />
-          <Row label="淨利" value={formatMarketCap(company.financials.netIncome)} />
+        <Section
+          title={`財務資料${
+            company.financialPeriod ? `(${company.financialPeriod})` : ""
+          }`}
+        >
+          <Row
+            label="營業收入"
+            value={orDash(company.financials.revenue, (n) => formatBigMoney(n, cur))}
+          />
+          <Row
+            label="稅後淨利"
+            value={orDash(company.financials.netIncome, (n) =>
+              formatBigMoney(n, cur)
+            )}
+          />
           <Row
             label="毛利率"
-            value={`${company.financials.grossMargin.toFixed(1)}%`}
+            value={orDash(company.financials.grossMargin, (n) => `${n.toFixed(1)}%`)}
           />
-          <Row label="負債比" value={`${company.financials.debtRatio.toFixed(1)}%`} />
           <Row
-            label="自由現金流"
-            value={formatMarketCap(company.financials.freeCashFlow)}
+            label="營業利益率"
+            value={orDash(
+              company.financials.operatingMargin,
+              (n) => `${n.toFixed(1)}%`
+            )}
+          />
+          <Row
+            label="稅後純益率"
+            value={orDash(company.financials.netMargin, (n) => `${n.toFixed(1)}%`)}
           />
         </Section>
 
         {/* 基本資料 */}
         <Section title="公司基本資料">
-          <Row label="成立年份" value={String(company.basics.founded)} />
-          <Row label="執行長" value={company.basics.ceo} />
-          <Row label="總部" value={company.basics.headquarters} />
-          <Row label="員工數" value={formatInt(company.basics.employees)} />
+          <Row
+            label="成立年份"
+            value={orDash(company.basics.founded, (n) => String(n))}
+          />
+          <Row label="董事長" value={company.basics.ceo ?? "—"} />
+          <Row label="總部" value={company.basics.headquarters ?? "—"} />
+          <Row label="產業別" value={company.sector} />
+          {company.basics.employees != null && (
+            <Row label="員工數" value={formatInt(company.basics.employees)} />
+          )}
         </Section>
+
+        {company.website && (
+          <a
+            href={company.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 block text-center text-sm font-semibold text-blue-600 hover:underline dark:text-blue-400"
+          >
+            前往公司官網 ↗
+          </a>
+        )}
 
         <button
           onClick={onClose}
-          className="mt-6 w-full rounded-xl bg-slate-800 py-3 font-semibold text-white dark:bg-slate-100 dark:text-slate-900"
+          className="mt-4 w-full rounded-xl bg-slate-800 py-3 font-semibold text-white dark:bg-slate-100 dark:text-slate-900"
         >
           關閉
         </button>

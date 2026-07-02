@@ -1,7 +1,7 @@
 // 卡面:滑動時看到的濃縮資訊(Logo、名稱、現價、走勢、3 個關鍵指標)。
 
 import type { Company } from "@/lib/types";
-import { formatMarketCap, formatMoney, formatPercent } from "@/lib/format";
+import { formatBigMoney, formatPercent, formatPrice, orDash } from "@/lib/format";
 import PriceChart from "./PriceChart";
 
 export default function StockCardFront({ company }: { company: Company }) {
@@ -15,30 +15,33 @@ export default function StockCardFront({ company }: { company: Company }) {
           {company.logo}
         </div>
         <div className="min-w-0">
-          <div className="flex items-center gap-2">
-            <h2 className="truncate text-2xl font-bold">{company.ticker}</h2>
-          </div>
-          <p className="truncate text-sm text-white/70">{company.name}</p>
-          <span className="mt-1 inline-block rounded-full bg-white/15 px-2 py-0.5 text-xs">
-            {company.sector}
-          </span>
+          <h2 className="truncate text-2xl font-bold">{company.name}</h2>
+          <p className="text-sm text-white/70">
+            {company.ticker}
+            <span className="ml-2 rounded-full bg-white/15 px-2 py-0.5 text-xs">
+              {company.sector}
+            </span>
+          </p>
         </div>
       </div>
 
       {/* 現價 + 漲跌幅 */}
-      <div className="mt-6 flex items-end justify-between">
-        <div>
-          <p className="text-4xl font-extrabold tracking-tight">
-            {formatMoney(company.price.current)}
-          </p>
-          <p
-            className={`mt-1 text-lg font-semibold ${
-              up ? "text-green-300" : "text-red-300"
-            }`}
-          >
-            {up ? "▲" : "▼"} {formatPercent(company.price.changePercent)}
-          </p>
-        </div>
+      <div className="mt-6">
+        <p className="text-4xl font-extrabold tracking-tight">
+          {formatPrice(company.price.current, company.currency)}
+        </p>
+        <p
+          className={`mt-1 text-lg font-semibold ${
+            up ? "text-green-300" : "text-red-300"
+          }`}
+        >
+          {up ? "▲" : "▼"} {formatPercent(company.price.changePercent)}
+          {company.dataDate && (
+            <span className="ml-2 text-xs font-normal text-white/50">
+              收盤 {company.dataDate}
+            </span>
+          )}
+        </p>
       </div>
 
       {/* 走勢圖 */}
@@ -46,18 +49,27 @@ export default function StockCardFront({ company }: { company: Company }) {
         <PriceChart data={company.history} height={90} />
       </div>
 
-      {/* 一句話簡介 */}
-      <p className="mt-4 text-sm leading-relaxed text-white/80">
+      {/* 公司全名 / 簡介 */}
+      <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-white/80">
         {company.description}
       </p>
 
       {/* 底部:3 個關鍵指標 */}
       <div className="mt-auto grid grid-cols-3 gap-2 pt-4">
-        <Metric label="市值" value={formatMarketCap(company.fundamentals.marketCap)} />
-        <Metric label="本益比" value={company.fundamentals.peRatio.toFixed(1)} />
+        <Metric
+          label="市值"
+          value={formatBigMoney(company.fundamentals.marketCap, company.currency)}
+        />
+        <Metric
+          label="本益比"
+          value={orDash(company.fundamentals.peRatio, (n) => n.toFixed(1))}
+        />
         <Metric
           label="殖利率"
-          value={`${company.fundamentals.dividendYield.toFixed(2)}%`}
+          value={orDash(
+            company.fundamentals.dividendYield,
+            (n) => `${n.toFixed(2)}%`
+          )}
         />
       </div>
     </div>

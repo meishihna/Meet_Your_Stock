@@ -5,12 +5,12 @@
 import { useMemo, useRef, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import type { Company, SwipeAction } from "@/lib/types";
-import { getCompanies } from "@/lib/dataService";
 import { useSwipeStore } from "@/store/useSwipeStore";
 import SwipeCard, { type SwipeCardHandle } from "./SwipeCard";
 import StockDetail from "./StockDetail";
 
-export default function CardStack() {
+// 公司資料由伺服器元件(page.tsx)抓好後,透過 props 傳進來
+export default function CardStack({ companies }: { companies: Company[] }) {
   const { hydrated, recordSwipe, reset, swipedTickers, watchlist } =
     useSwipeStore();
   const topCardRef = useRef<SwipeCardHandle>(null);
@@ -18,13 +18,10 @@ export default function CardStack() {
   // 詳情面板要顯示哪一家(null 代表關閉)
   const [detail, setDetail] = useState<Company | null>(null);
 
-  // 所有公司(只算一次)
-  const allCompanies = useMemo(() => getCompanies(), []);
-
   // 還沒滑過的公司才留在牌堆裡
   const deck = useMemo(
-    () => allCompanies.filter((c) => !swipedTickers.has(c.ticker)),
-    [allCompanies, swipedTickers]
+    () => companies.filter((c) => !swipedTickers.has(c.ticker)),
+    [companies, swipedTickers]
   );
 
   // localStorage 還沒讀回來前先不畫,避免畫面閃動
