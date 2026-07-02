@@ -83,6 +83,55 @@ function generateHistory(ticker: string, currentPrice: number): PricePoint[] {
 }
 
 /**
+ * 抓取「真實」近一年週線收盤價(Yahoo Finance chart API,免金鑰)。
+ * 一檔一次呼叫,回傳約 52 週的收盤點。失敗回傳 null(讓呼叫端退回模擬資料)。
+ */
+async function fetchRealHistory(
+  ticker: string,
+  currentPrice: number
+): Promise<PricePoint[] | null> {
+  try {
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}.TW?range=1y&interval=1wk`;
+    const res = await fetch(url, {
+      headers: { "User-Agent": "Mozilla/5.0" }, // Yahoo 會擋沒有 UA 的請求
+      next: { revalidate: 3600 },
+    });
+    if (!res.ok) return null;
+
+    const data = (await res.json()) as {
+      chart?: {
+        result?: {
+          timestamp?: number[];
+          indicators?: { quote?: { close?: (number | null)[] }[] };
+        }[];
+      };
+    };
+
+    const result = data.chart?.result?.[0];
+    const timestamps = result?.timestamp;
+    const closes = result?.indicators?.quote?.[0]?.close;
+    if (!timestamps || !closes) return null;
+
+    const points: PricePoint[] = [];
+    for (let i = 0; i < timestamps.length; i++) {
+      const close = closes[i];
+      if (close == null) continue; // 略過沒有成交(null)的週
+      points.push({
+        date: new Date(timestamps[i] * 1000).toISOString().slice(0, 10),
+        close: Number(close.toFixed(2)),
+      });
+    }
+    if (points.length < 4) return null;
+
+    // 讓最後一點對齊卡片顯示的收盤價(證交所現價),避免圖尾與現價對不上
+    points[points.length - 1].close = currentPrice;
+    return points;
+  } catch {
+    return null;
+  }
+}
+
+/**
  * 抓取並組裝台股公司資料。
  * 四個端點:
  *  - STOCK_DAY_ALL:每日收盤(價格、漲跌)
@@ -173,9 +222,21 @@ export async function fetchTaiwanCompanies(): Promise<Company[]> {
         ceo: i["董事長"] || undefined,
         headquarters: i["住址"] || undefined,
       },
-      history: generateHistory(code, close),
+      history: generateHistory(code, close), // 先放模擬走勢當備援
+      historySource: "simulated",
     });
   }
+
+  // 平行抓每檔的真實週線;抓到就覆蓋掉模擬走勢,抓不到就保留備援
+  const histories = await Promise.allSettled(
+    companies.map((c) => fetchRealHistory(c.ticker, c.price.current))
+  );
+  histories.forEach((h, idx) => {
+    if (h.status === "fulfilled" && h.value) {
+      companies[idx].history = h.value;
+      companies[idx].historySource = "real";
+    }
+  });
 
   return companies;
 }

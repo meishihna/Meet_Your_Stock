@@ -64,8 +64,10 @@ export interface Company {
     employees?: number; // 員工數
   };
 
-  /** 近一年股價走勢(demo 由程式產生,非真實歷史) */
+  /** 近一年股價走勢 */
   history: PricePoint[];
+  /** 走勢資料來源:real = Yahoo Finance 真實週線;simulated = 程式模擬(抓取失敗時的備援) */
+  historySource?: "real" | "simulated";
 }
 
 /** 一筆滑卡紀錄 */
